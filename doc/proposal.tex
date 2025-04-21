@@ -1,0 +1,101 @@
+% Copyright 2025 Xie Youtian. All rights reserved.
+% Confidential - Do not disclose until score of the project is released.
+\documentclass{article}
+\usepackage{a4}
+\usepackage{geometry}
+\usepackage{pgf-umlcd}
+
+\usetikzlibrary{arrows.meta}
+\geometry{left=3.18cm, right=3.18cm, top=2.54cm, bottom=2.54cm}
+\title{Object-oriented Programming - Project proposal}
+\author{Xie Youtian 2430026233}
+\date{}
+\begin{document}
+\maketitle
+\section{Introduction}
+I choose event ticket booking system as my project. 
+Below are a kind of business logic of event ticket booking system 
+in my recognition and may not be $100\%$ accurate.
+
+In a ticket booking system, users have 3 roles: 
+customer, event organizer and administrators. 
+We operate with events and tickets.
+To simplify the design, we assume that there is no seat arrangement, 
+like ACGN conventions or business fairs. 
+
+So, the business logic is clear:
+\begin{enumerate}
+    \item Customer book, return and change tickets.
+    \item Event organizer apply for events and maintain event informations.
+    \item System administrator manage users and approve event informations.
+\end{enumerate}
+
+\section{Design of OOP Concepts with UML}
+Below is a inheritance system of interfaces and classes of users.
+
+\begin{tikzpicture}
+    % 接口定义
+    \begin{interface}[text width=5cm]{User}{0,0}
+        \operation{+ login(username : String, password : String) : void}
+        \operation{+ logout() : void}
+    \end{interface}
+
+    % 抽象类
+    \begin{abstractclass}[text width=6cm]{AbstractUser}{0,-3}
+        \attribute{- userID : String}
+        \attribute{- username : String}
+        \operation{+ logout() : void}
+        \implement{User}
+    \end{abstractclass}
+
+    % 用户继承体系
+    \begin{class}[text width=5cm]{Customer}{-5,-6}
+        \inherit{AbstractUser}
+        \attribute{\verb|- bookedTickets : ArrayList<Ticket>|}
+        \operation{+ login() : void}
+    \end{class}
+
+    \begin{class}[text width=5cm]{EventOrganizer}{0,-6}
+        \inherit{AbstractUser}
+        \operation{+ createEvent(event : Event) : void}
+        \operation{+ updateEvent(eventID : String) : void}
+    \end{class}
+
+    \begin{class}[text width=5cm]{Administrator}{5,-6}
+        \inherit{AbstractUser}
+        \operation{+ approveEvent(event : Event) : void}
+        \operation{+ suspendUser(userID : String) : void}
+    \end{class}
+\end{tikzpicture}
+
+
+    % % 其他类
+    % \begin{class}[text width=6cm]{Ticket}{-5,0}
+    %     \attribute{- ticketID : String}
+    %     \attribute{- status : TicketStatus}
+    %     \attribute{- event : Event}
+    %     \attribute{- owner : Customer}
+    % \end{class}
+
+    % \begin{class}[text width=6cm]{BookingSystem}{-8,3}
+    %     \operation{+ bookTicket(customer : Customer, eventID : String) : Ticket}
+    %     \operation{+ bookTicket(customer : Customer, eventID : String, quantity : int) : List<Ticket>}
+    % \end{class}
+
+    % % 异常类
+    % \begin{class}[text width=5cm]{InvalidBookingException}{-8,-3}
+    %     % \inherit{Exception}
+    % \end{class}
+
+    % \begin{class}[text width=5cm]{EventApprovalException}{8,-6}
+    %     % \inherit{Exception}
+    % \end{class}
+
+    % % 关系连接
+    % \association{BookingSystem}{}{}{Ticket}{}{}
+    % \association{Ticket}{}{}{Customer}{}{}
+    % \association{Ticket}{}{}{Event}{}{}
+    % \association{Administrator}{}{}{Event}{}{}
+    % \unidirectionalAssociation{EventOrganizer}{}{}{Event}{}{}
+
+\end{document}
