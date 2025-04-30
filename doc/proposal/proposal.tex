@@ -80,14 +80,14 @@ and defined what users can do for each type of users.
 \pagebreak
 Then let's move to the next step, we need to define the relationship in events. 
 First, there is a enumeration type named \textbf{EventStatus} that has 5 values: 
-\begin{list}{}{}
+\begin{itemize}
     \item \textbf{PLANNING} - Event is planning, but not ready for approval.\\The organizer of this event and administrators can see this event,\\but administrators can't approve it as it is not shown in the waiting list.
     \item \textbf{APPLYING} - Event is applying for approval. When the event organizer updates its information\\it will  go back to \textbf{PLANNING} status.\\Administrators can see this event in the waiting list and decide whether to approve it or not.
     \item \textbf{APPROVED} - Event is approved. All users can see this event, but customers can't book tickets.\\When the event organizer update its information it will go back to \textbf{PLANNING} status.
     \item \textbf{DISAPPROVED} - Event is disapproved, and behaviours are same as \textbf{PLANNING} except on display.
     \item \textbf{AVAILABLE} - Event is available for booking.
     \item \textbf{CANCELLED} - Event is cancelled. All users can see this event, but customers can't book tickets.\\ Other behaviours are same as \textbf{PLANNING}.
-\end{list}
+\end{itemize}
  
 Below are 3 classes handling event information and ticketing logic, and each \textbf{EventData} is corresponding to a \textbf{Event}.
 Implementation will be discussed during the project.
@@ -161,10 +161,8 @@ Data will be stored in a SQLite database, with 3 tables: users, tickets and even
 \hrule
 
 \begin{center}
-    This is a prototype of the project, and the actual implementation may be vary from this proposal.\\ 
-    All features in this project proposal are subject to change.
-    The right to amend the design contained in this proposal, \\containing but not limited to OOP design, UI/UX design amd data storage is reserved.
-
-    \copyright 2025 Xie Youtian. All rights reserved.
+    This document serves as a preliminary prototype, \\ and the final implementation may differ from the specifications outlined herein.\\
+    All features described in this proposal are subject to change.\\
+    \copyright\ 2025 Xie Youtian. All rights reserved.
 \end{center}
 \end{document}
