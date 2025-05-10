@@ -1,0 +1,35 @@
+package net.xiedada.eventinfo.userutilities;
+import net.xiedada.eventinfo.exceptions.*;
+import net.xiedada.eventinfo.eventutilities.*; // Coming soon
+import java.util.ArrayList;
+
+public class Customer extends User{
+    private ArrayList<Tickets> tickets = new ArrayList<Tickets>();
+    // Events from these EventOrganizers in this list will be hidden from the customer, as user stated that they have no interest in them.
+    private ArrayList<EventOrganizer> eventOrganizersBlacklist = new ArrayList<EventOrganizer>();
+    public Customer(int userID, String username, String password) {
+        super(userID ,username, password);
+    } // Constructor for Customer class
+    public void suspendUser(User user) throws IllegalArgumentException, BadStatusException {
+        // Logic to suspend a user
+        if (user == null) {
+            throw new IllegalArgumentException("User cannot be null");
+        }
+        else if (!(user instanceof EventOrganizer)){
+            throw new IllegalArgumentException("Only EventOrganizers can be suspended");
+        }
+        else {
+            eventOrganizersBlacklist.add((EventOrganizer) user); // Add the EventOrganizer to the blacklist
+        }
+    } // Method to suspend a user, only for admin use.
+    public boolean isBlacklisted(EventOrganizer user) throws IllegalArgumentException {
+        // Logic to check if a user is blacklisted
+        if (user == null) {
+            throw new IllegalArgumentException("User cannot be null");
+        }
+        else if (eventOrganizersBlacklist.contains(user)){
+            return true; // User is blacklisted
+        }
+        else return false; // User is not blacklisted
+    } // Method to check if a user is blacklisted, only for admin use.
+}
