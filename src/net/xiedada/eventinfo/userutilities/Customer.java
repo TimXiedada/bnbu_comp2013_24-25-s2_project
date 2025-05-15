@@ -10,8 +10,8 @@ public class Customer extends User {
     // customer, as user stated that they have no interest in them.
     private ArrayList<EventOrganizer> eventOrganizersBlacklist = new ArrayList<EventOrganizer>();
 
-    public Customer(int userID, String username, String password) {
-        super(userID, username, password, User.UserType.CUSTOMER);
+    public Customer(String username, String password) {
+        super(username, password, User.UserType.CUSTOMER);
     } // Constructor for Customer class
 
     public void suspendUser(User user) throws IllegalArgumentException, BadStatusException {

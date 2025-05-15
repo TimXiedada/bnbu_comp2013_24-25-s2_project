@@ -13,8 +13,8 @@ public class EventOrganizer extends User {
 
     // Customers in these lists will not be able to book tickets for events from
     // this EventOrganizer, as they are banned.
-    public EventOrganizer(int userID, String username, String password) {
-        super(userID, username, password, User.UserType.EVENT_ORGANIZER);
+    public EventOrganizer(String username, String password) {
+        super(username, password, User.UserType.EVENT_ORGANIZER);
         this.events = Event.getMyListOfEvents(this);
     } // Constructor for EventOrganizer class
 
@@ -49,7 +49,7 @@ public class EventOrganizer extends User {
         else if (event.getStatus() != Event.EventStatus.AVAILABLE){
             throw new BadStatusException("Event is not available for booking");
         }
-        else if (events.contains(event)){
+        else if (!events.contains(event)){
             throw new BadStatusException("Event does not belong to this organizer");
         }
         else {

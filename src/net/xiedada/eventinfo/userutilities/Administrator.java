@@ -3,8 +3,8 @@ import net.xiedada.eventinfo.exceptions.*;
 import net.xiedada.eventinfo.eventutilities.*;
 
 public class Administrator extends User{
-    public Administrator(int uid, String username, String password) {
-        super(uid, username, password,User.UserType.ADMINISTRATOR);
+    public Administrator(String username, String password) {
+        super(username, password,User.UserType.ADMINISTRATOR);
     }
     public void suspendUser(User user) throws IllegalArgumentException, BadStatusException {
         // Logic to suspend a user

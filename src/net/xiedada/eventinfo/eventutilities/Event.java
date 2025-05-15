@@ -19,7 +19,12 @@ public class Event implements Serializable {
         }
         return myEvents;
     }
-
+    public static ArrayList<Event> getListOfAllEvents() {
+        return listOfAllEvents;
+    }
+    public static void loadEventList(ArrayList<Event> list) {
+        listOfAllEvents = list;
+    }
     public static enum EventStatus {
         PLANNING,
         APPLYING,
@@ -135,10 +140,13 @@ public class Event implements Serializable {
                 || newData.capacity <= 0) {
             throw new IllegalArgumentException("Invalid event data");
         }
+        if (status == EventStatus.AVAILABLE && Tickets.size() > 0) { 
+            // 如果事件已经有票被售出，则不能修改事件数据
+            throw new BadStatusException("A word spoken is past recalling");
+        }
+        // 允许在任意状态（包括DISAPPROVED和CANCELLED）下更新并恢复为PLANNING
         this.data = newData.clone();
-
         status = EventStatus.PLANNING; // Reset status to PLANNING after updating data
-
     }
 
     public void setAvailable() throws BadStatusException {
@@ -161,7 +169,7 @@ public class Event implements Serializable {
             throw new IllegalArgumentException("Customer cannot be null");
         } else if (this.ticketTypes == null || !new String(this.ticketTypes).contains(String.valueOf(ticketType))) {
             throw new IllegalArgumentException("Invalid ticket type");
-        } else if (Tickets.size()>this.data.capacity){
+        } else if (Tickets.size()>this.data.capacity || this.data.date.isBefore(LocalDate.now())) {
             return null;
         }
         this.Tickets.add(new Ticket(this, customer, ticketType));
@@ -185,5 +193,8 @@ public class Event implements Serializable {
         }
         Tickets.remove(ticket);
     }
-
+    @Override
+    public String toString() {
+        return "Event ID " + this.eventID.toString().substring(0, 8).toUpperCase() + " named \"" + this.data.name + "\" at " + this.data.location + " on " + this.data.date     ;
+    }
 }
