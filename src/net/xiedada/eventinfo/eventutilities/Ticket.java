@@ -7,8 +7,8 @@ import java.util.UUID;
 public class Ticket implements Serializable {
     // private int ticketID;
     public final UUID ticketID;
-    private Event event;
-    private Customer owner;
+    private final Event event;
+    private final Customer owner;
     private char type;
     public Ticket(UUID ticketID, Event event, Customer owner, char type) {
         this.ticketID = ticketID;
@@ -22,6 +22,7 @@ public class Ticket implements Serializable {
         this.owner = owner;
         this.type = type;
     }
+    
     // Getter methods
     public UUID getTicketID() {
         return ticketID;
@@ -39,4 +40,15 @@ public class Ticket implements Serializable {
         return type;
     }
     // Setter methods
+    public void setType(char type) {
+        this.type = type;
+    }
+
+    // public void ChangeTicket(char newType) throws IllegalArgumentException{
+    //     if (event.ticketTypes == null || !new String(event.ticketTypes).contains(String.valueOf(type))){
+    //         throw new IllegalArgumentException("Invalid ticket type");
+    //     }else{
+    //         this.setType(newType);
+    //     }
+    // }
 }

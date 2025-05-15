@@ -43,13 +43,13 @@ public class EventOrganizer extends User {
     } // Method to create an event
 
     public Ticket orderTicket(Customer customer, Event event, char ticketType) throws BadStatusException,NotPermittedException {
-        if (customersBlacklist.indexOf(customer) != -1){
+        if (customersBlacklist.contains(customer)){
             throw new NotPermittedException("You have been blacklisted!");
         }
         else if (event.getStatus() != Event.EventStatus.AVAILABLE){
             throw new BadStatusException("Event is not available for booking");
         }
-        else if (events.indexOf(event) == -1){
+        else if (events.contains(event)){
             throw new BadStatusException("Event does not belong to this organizer");
         }
         else {
