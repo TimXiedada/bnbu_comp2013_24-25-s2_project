@@ -4,11 +4,11 @@ import net.xiedada.eventinfo.eventutilities.*; // Coming soon
 import java.util.ArrayList;
 
 public class Customer extends User{
-    private ArrayList<Tickets> tickets = new ArrayList<Tickets>();
+    private ArrayList<Ticket> tickets = new ArrayList<Ticket>();
     // Events from these EventOrganizers in this list will be hidden from the customer, as user stated that they have no interest in them.
     private ArrayList<EventOrganizer> eventOrganizersBlacklist = new ArrayList<EventOrganizer>();
     public Customer(int userID, String username, String password) {
-        super(userID ,username, password);
+        super(userID ,username, password,User.UserType.CUSTOMER);
     } // Constructor for Customer class
     public void suspendUser(User user) throws IllegalArgumentException, BadStatusException {
         // Logic to suspend a user
@@ -32,4 +32,20 @@ public class Customer extends User{
         }
         else return false; // User is not blacklisted
     } // Method to check if a user is blacklisted, only for admin use.
+    public void bookTicket(Event event, char type) throws IllegalArgumentException, BadStatusException, NotPermittedException {
+        if (event == null) {
+            throw new IllegalArgumentException("Event cannot be null");
+        }
+        EventOrganizer organizer = event.getOrganizer();
+        if (event.getStatus() != Event.EventStatus.AVAILABLE){
+            throw new BadStatusException("Event is not available for booking");
+        }
+        else {
+            if (!this.isSignedIn()) {
+                throw new NotPermittedException("User must be signed in to book a ticket");
+            }
+            Ticket ticket = organizer.orderTicket(this, event, 'A');
+            tickets.add(ticket);
+        }
+    } // Method to book a ticket for an Event
 }

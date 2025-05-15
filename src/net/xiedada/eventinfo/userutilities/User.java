@@ -1,25 +1,34 @@
 package net.xiedada.eventinfo.userutilities;
-
+import java.io.Serializable;
+import java.util.ArrayList;
 import net.xiedada.eventinfo.exceptions.*;
 
-public abstract class User implements Authenticator {
-    private final int userID;
+public abstract class User implements Authenticator, Serializable {
+    public static enum UserType {
+        ADMINISTRATOR,
+        EVENT_ORGANIZER,
+        CUSTOMER
+    }
+    private static ArrayList<User> listofAllUsers = new ArrayList<User>(); // static variable to keep track of all users
+    static int userIDCounter = 0; // static variable to keep track of user IDs
+    public final int userID;
     private String username;
     private String password; // stored in plain text for now, not safe at all QAQ
     private boolean isSignedIn;
-    private static int userCount = 0; // static variable to keep track of the number of users
     boolean locked = false; // default value is false
-
+    public final UserType userType;
     public static int getUserCount() {
-        return userCount;
+        return listofAllUsers.size();
     }
 
-    public User(int userID, String username, String password) { // only invoked when loading from user database
-        this.userID = userID;
+    
+
+    public User(int userID, String username, String password, UserType userType) { // only invoked when loading from user database
+        this.userID = userIDCounter++;
         this.username = username;
         this.password = password;
         this.isSignedIn = false;
-        userCount++;
+        this.userType = userType;
     }
 
     public boolean login(String username, String password) throws SuspendException, BadStatusException {
@@ -54,6 +63,15 @@ public abstract class User implements Authenticator {
 
     public String getUsername() {
         return username;
+    }
+
+    public static User findUserWithUID(int UID){
+        for (User user : listofAllUsers) {
+            if (user.getUserID() == UID) {
+                return user;
+            }
+        }
+        return null;
     }
 
 }
