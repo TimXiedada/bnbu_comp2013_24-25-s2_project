@@ -9,10 +9,13 @@ public class iCLIInputToolkit {
         for (int i = 0; i < selections.length; i++) {
             System.out.println((i + 1) + ". " + selections[i]);
         }
-
+        if(selections.length == 0) {
+            System.out.println("No options available.");
+            return 0;
+        }
         int choice = defaultChoice;
         while (true) {
-            System.out.printf("Select an option (1-" + selections.length + ", default=%d): ", defaultSelection);
+            System.out.printf("Select an option (1-%d, default=%d): ", selections.length, defaultSelection);
             try {
                 String input = console.readLine();
                 if (input.isEmpty()) {
@@ -39,6 +42,10 @@ public class iCLIInputToolkit {
         }
 
         int choice = 0;
+        if (selections.length == 0) {
+            System.out.println("No options available.");
+            return 0;
+        }
         while (true) {
             System.out.print("Select an option (1-" + selections.length + "): ");
             try {
@@ -54,7 +61,9 @@ public class iCLIInputToolkit {
         }
         return choice;
     }
-
+    public void PrintMSG(String message) {
+        System.out.println(message);
+    }
     public String Input(String prompt) {
         System.out.print(prompt);
         return console.readLine();

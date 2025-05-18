@@ -24,6 +24,12 @@ public abstract class User implements Authenticator, Serializable {
     boolean locked = false; // default value is false
     public final UserType userType;
 
+    public static void clearLoginState() {
+        for (User user : listofAllUsers) {
+            user.isSignedIn = false;
+        }
+    }
+
     public static int getUserCount() {
         return listofAllUsers.size();
     }
@@ -54,18 +60,12 @@ public abstract class User implements Authenticator, Serializable {
         this.isSignedIn = false;
         this.userType = userType;
         listofAllUsers.add(this);
-        this.userID = listofAllUsers.size() + 1; // set userID to the size of the list of all users
+        this.userID = listofAllUsers.size(); // set userID to the size of the list of all users
         userIDMap.put(this.userID, this); // add user to userIDMap
         userNameMap.put(this.username, this); // add user to userNameMap
     }
 
-    public User(int userID, String username, String password, UserType userType) throws IllegalArgumentException { // only
-                                                                                                                   // invoked
-                                                                                                                   // when
-                                                                                                                   // loading
-                                                                                                                   // from
-                                                                                                                   // user
-                                                                                                                   // database
+    public User(int userID, String username, String password, UserType userType) throws IllegalArgumentException { 
         this.userID = userIDCounter++;
         if (java.util.regex.Pattern.matches("^[a-z_]([a-z0-9_-]{0,31}|[a-z0-9_-]{0,30}\\$)$", username))
             this.username = username;

@@ -7,9 +7,13 @@ public class Administrator extends User{
         super(username, password,User.UserType.ADMINISTRATOR);
     }
     public void suspendUser(User user) throws IllegalArgumentException, BadStatusException {
-        // Logic to suspend a user
+        // Logic to suspend or restore access for a user
         if (user == null) {
             throw new IllegalArgumentException("User cannot be null");
+        }
+        if (user.locked) {
+            user.locked = false;
+            return; // Unlock the user if they are currently locked
         }
         if (user.isSignedIn()) {
             user.logout(); // Log out the user if they are currently signed in

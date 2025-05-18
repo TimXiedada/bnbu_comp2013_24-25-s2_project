@@ -13,6 +13,11 @@ public class EventOrganizer extends User {
 
     // Customers in these lists will not be able to book tickets for events from
     // this EventOrganizer, as they are banned.
+
+    public ArrayList<Event> getEvents() {
+        return events;
+    } // Getter for events
+
     public EventOrganizer(String username, String password) {
         super(username, password, User.UserType.EVENT_ORGANIZER);
         this.events = Event.getMyListOfEvents(this);
@@ -29,7 +34,7 @@ public class EventOrganizer extends User {
         }
     }
 
-    void createEvent(String name, String description, String location, LocalDate date, int capacity, char[] ticketTypes)
+    public void createEvent(String name, String description, String location, LocalDate date, int capacity, char[] ticketTypes)
             throws IllegalArgumentException {
         // Logic to create an event
         if (name == null || description == null || location == null || date == null || capacity <= 0

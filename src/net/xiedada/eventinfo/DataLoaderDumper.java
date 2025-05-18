@@ -15,6 +15,7 @@ public class DataLoaderDumper {
 
     // Dump user data to a file
     public static void dumpUserData() {
+        User.clearLoginState();
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(USER_DATA_FILE))) {
             oos.writeObject(User.getListofAllUsers());
         } catch (IOException e) {
@@ -48,7 +49,7 @@ public class DataLoaderDumper {
                 return;
             }
             try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-                ArrayList<User> userList = (ArrayList<User>) ois.readObject();
+                ArrayList<User> userList = (ArrayList<User>) ois.readObject(); // 无视警告，存的什么就读什么
                 User.loadUserList(userList);
             }
         } catch (IOException | ClassNotFoundException e) {
@@ -65,7 +66,7 @@ public class DataLoaderDumper {
                 return;
             }
             try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-                ArrayList<Event> eventList = (ArrayList<Event>) ois.readObject();
+                ArrayList<Event> eventList = (ArrayList<Event>) ois.readObject(); // 无视警告，存的什么就读什么
                 Event.loadEventList(eventList);
             }
         } catch (IOException | ClassNotFoundException e) {
@@ -82,7 +83,7 @@ public class DataLoaderDumper {
                 return;
             }
             try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
-                HashMap<UUID, Ticket> ticketList = (HashMap<UUID, Ticket>) ois.readObject();
+                HashMap<UUID, Ticket> ticketList = (HashMap<UUID, Ticket>) ois.readObject(); // 无视警告，存的什么就读什么
                 Ticket.loadTicketData(ticketList);
             }
         } catch (IOException | ClassNotFoundException e) {

@@ -14,6 +14,10 @@ public class Customer extends User {
         super(username, password, User.UserType.CUSTOMER);
     } // Constructor for Customer class
 
+    public ArrayList<Ticket> getTickets() {
+        return tickets;
+    } // Getter for tickets
+
     public void suspendUser(User user) throws IllegalArgumentException, BadStatusException {
         // Logic to suspend a user
         if (user == null) {

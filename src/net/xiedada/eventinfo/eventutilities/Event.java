@@ -4,6 +4,7 @@ import net.xiedada.eventinfo.userutilities.*;
 import net.xiedada.eventinfo.exceptions.*;
 import java.time.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.UUID;
 import java.io.Serializable;
 
@@ -34,7 +35,7 @@ public class Event implements Serializable {
         AVAILABLE
     }
 
-    public class EventData implements Cloneable {
+    public class EventData implements Cloneable, Serializable {
         public String name;
         public String description;
         public String location;
@@ -72,6 +73,7 @@ public class Event implements Serializable {
         this.status = EventStatus.PLANNING;
         this.organizer_uid = organizer_uid;
         this.ticketTypes = ticketTypes;
+        listOfAllEvents.add(this);
     }
 
     // Getter 方法
@@ -113,7 +115,7 @@ public class Event implements Serializable {
 
     public void approve() throws BadStatusException {
         if (status != EventStatus.APPLYING) {
-            throw new BadStatusException("Event is already approved");
+            throw new BadStatusException("Event not waiting for approval");
         }
         status = EventStatus.APPROVED;
     }
@@ -155,6 +157,14 @@ public class Event implements Serializable {
         }
         status = EventStatus.AVAILABLE;
     }
+
+    public void setApplying() throws BadStatusException {
+        if (status == EventStatus.APPLYING || status == EventStatus.APPROVED || status == EventStatus.AVAILABLE) {
+            throw new BadStatusException("Event is already in the applying state or approved");
+        }
+        status = EventStatus.APPLYING;
+    }
+
     // public void addAttendee(Customer c) throws IllegalArgumentException {
     // if (c == null) {
     // throw new IllegalArgumentException("Customer cannot be null");
@@ -195,6 +205,15 @@ public class Event implements Serializable {
     }
     @Override
     public String toString() {
-        return "Event ID " + this.eventID.toString().substring(0, 8).toUpperCase() + " named \"" + this.data.name + "\" at " + this.data.location + " on " + this.data.date     ;
+        HashMap<EventStatus, String> statusMap = new HashMap<>();
+        statusMap.put(EventStatus.PLANNING, "Planning");
+        statusMap.put(EventStatus.APPLYING, "Applying");
+        statusMap.put(EventStatus.APPROVED, "Approved");
+        statusMap.put(EventStatus.DISAPPROVED, "Disapproved");
+        statusMap.put(EventStatus.CANCELLED, "Cancelled");
+        statusMap.put(EventStatus.AVAILABLE, "Available");
+
+        return "Event ID " + this.eventID.toString().substring(0, 8).toUpperCase() + " named \"" + this.data.name + "\" at " + this.data.location + " on " + this.data.date + " with capacity " + this.data.capacity + " and status " + statusMap.get(this.status) + ".";
     }
+
 }
