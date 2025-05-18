@@ -46,21 +46,48 @@ public class MainPanel extends JFrame {
                     return;
                 }
                 String eventID = (String) activityTable.getValueAt(selectedRow, 0);
-                char ticketType = JOptionPane.showInputDialog(this, "Enter ticket type:").charAt(0);
                 try {
                     Event event = Event.getListOfAllEvents().stream()
                             .filter(ev -> ev.getID().toString().equals(eventID))
                             .findFirst()
                             .orElse(null);
                     if (event != null) {
-                        ((Customer) user).bookTicket(event, ticketType);
-                        JOptionPane.showMessageDialog(this, "Event booked successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        String[] ticketOptions = new String[event.ticketTypes.length];
+                        for (int i = 0; i < event.ticketTypes.length; i++) {
+                            ticketOptions[i] = String.valueOf(event.ticketTypes[i]);
+                        }
+                        String selectedTicketType = (String) JOptionPane.showInputDialog(
+                                this,
+                                "Select ticket type:",
+                                "Ticket Type",
+                                JOptionPane.QUESTION_MESSAGE,
+                                null,
+                                ticketOptions,
+                                ticketOptions[0]
+                        );
+                        if (selectedTicketType != null) {
+                            char ticketType = selectedTicketType.charAt(0);
+                            ((Customer) user).bookTicket(event, ticketType);
+                            JOptionPane.showMessageDialog(this, "Event booked successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                        }
                     } else {
                         JOptionPane.showMessageDialog(this, "Event not found.", "Error", JOptionPane.ERROR_MESSAGE);
                     }
                 } catch (Exception ex) {
                     JOptionPane.showMessageDialog(this, ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
                 }
+            });
+
+            JButton manageTicketsButton = new JButton("Manage Tickets");
+            actionPanel.add(manageTicketsButton);
+
+            manageTicketsButton.addActionListener(e -> {
+                JDialog dialog = new JDialog(this, "Ticket Management", true);
+                dialog.setSize(600, 400);
+                dialog.setLocationRelativeTo(this);
+                dialog.setLayout(new BorderLayout());
+                dialog.add(new TicketManagementPanel((Customer) user), BorderLayout.CENTER);
+                dialog.setVisible(true);
             });
         } else if (user instanceof EventOrganizer) {
             JButton createButton = new JButton("Create Event");

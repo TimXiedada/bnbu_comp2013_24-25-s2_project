@@ -58,20 +58,22 @@ public class Customer extends User {
 
     public void ChangeTicket(Ticket ticket,char newType) throws Throwable {
         if (ticket == null) {
-            throw new IllegalArgumentException("Argument cannot be null");
-        }else if (!tickets.contains(ticket)){
+            throw new IllegalArgumentException("Ticket cannot be null");
+        } else if (tickets.stream().noneMatch(t -> t.getTicketID().equals(ticket.getTicketID()))) {
             throw new IllegalArgumentException("One cannot dispose of what does not belong to them");
         } else {
-            ticket.getEvent().changeTicket(ticket,newType);
+            ticket.getEvent().changeTicket(ticket, newType);
+            tickets.removeIf(t -> t.getTicketID().equals(ticket.getTicketID()));
+            tickets.add(ticket);
         }
     }
     public void ReturnTicket(Ticket ticket) throws IllegalArgumentException {
         if (ticket == null) {
             throw new IllegalArgumentException("Ticket cannot be null");
-        } else if (!tickets.contains(ticket)) {
+        } else if (tickets.stream().noneMatch(t -> t.getTicketID().equals(ticket.getTicketID()))) {
             throw new IllegalArgumentException("One cannot dispose of what does not belong to them");
         } else {
-            tickets.remove(ticket);
+            tickets.removeIf(t -> t.getTicketID().equals(ticket.getTicketID()));
             ticket.getEvent().ReturnTicket(ticket);
         }
     } // Method to return a ticket for an Event

@@ -3,6 +3,8 @@ package net.xiedada.eventinfo.ui.icli;
 import net.xiedada.eventinfo.exceptions.*;
 import net.xiedada.eventinfo.eventutilities.*;
 import net.xiedada.eventinfo.userutilities.*;
+
+import java.awt.Toolkit;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
@@ -64,7 +66,8 @@ public class iCLIMain {
                 MainMenuEventOrganizer((EventOrganizer) U);
                 break;
             case CUSTOMER:
-                MainMenuCustomer((Customer) U);
+                toolkit.PrintMSG("Customer functionality not implemented yet.");
+                U.logout();
                 break;
             default:
                 toolkit.PrintMSG("Unknown user type.");

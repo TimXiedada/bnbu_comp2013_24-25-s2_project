@@ -12,7 +12,7 @@ import java.awt.*;
 import javax.swing.*;
 
 public class SwingUIMain {
-    public static void main(String[] args) {
+    public static void launch(String[] args) {
         // Load data from files
         DataLoaderDumper.loadUserData();
         DataLoaderDumper.loadEventData();

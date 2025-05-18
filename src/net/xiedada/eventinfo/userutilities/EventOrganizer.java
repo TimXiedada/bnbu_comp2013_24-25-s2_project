@@ -54,10 +54,17 @@ public class EventOrganizer extends User {
         else if (event.getStatus() != Event.EventStatus.AVAILABLE){
             throw new BadStatusException("Event is not available for booking");
         }
-        else if (!events.contains(event)){
-            throw new BadStatusException("Event does not belong to this organizer");
+        // Check if the event with the same UUID exists in this organizer's events
+        boolean found = false;
+        for (Event e : events) {
+            if (e.getID().equals(event.getID())) {
+                found = true;
+                break;
+            }
         }
-        else {
+        if (!found) {
+            throw new BadStatusException("Event does not belong to this organizer");
+        } else {
             return event.createTicket(customer, ticketType);
         }
     }

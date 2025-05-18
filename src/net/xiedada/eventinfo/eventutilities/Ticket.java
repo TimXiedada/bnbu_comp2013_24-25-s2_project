@@ -56,7 +56,7 @@ public class Ticket implements Serializable {
     }
 
     public String toString(){
-        return "Ticket ID " + this.ticketID.toString().substring(0, 8).toUpperCase() + " class " + type + " for " + this.event.getInfo().name + " starting at " + this.event.getInfo().date;
+        return "Ticket ID " + this.ticketID.toString() + " class " + type + " for " + this.event.getInfo().name + " starting at " + this.event.getInfo().date;
     }
 
     // public void ChangeTicket(char newType) throws IllegalArgumentException{
