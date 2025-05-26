@@ -1,1 +1,1 @@
-See [the proposal](doc/proposal.pdf) for details.
+See [the proposal](doc/proposal/proposal.pdf) for details.
